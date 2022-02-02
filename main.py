@@ -22,8 +22,8 @@ async def file_temp(request: Request):
   return templates.TemplateResponse("webpage.html", {'request': request})
 
 
-@app.post("/")
-async def create_upload_files(files: List[UploadFile] = File(...)):
+@app.post("/", response_class=HTMLResponse)
+async def create_upload_files(*,files: List[UploadFile] = File(...), request: Request):
 
   for i in os.listdir("documents/"):
     os.remove("documents/"+i)
@@ -58,7 +58,7 @@ async def create_upload_files(files: List[UploadFile] = File(...)):
           logs.write('Error occured while transcribing the file :'+fname+"\n")
           logs.close()
           shutil.make_archive("transcribed_docs","zip","documents")
-          return FileResponse("transcribed_docs.zip")
+          return templates.TemplateResponse("download.html", {'request': request})
 
     logs.write('Transcription Completed for the file:'+fname+"\n")
 
@@ -94,4 +94,12 @@ async def create_upload_files(files: List[UploadFile] = File(...)):
   logs.write('Zipping all the transcribed documents and preparing to download')
   logs.close()
   shutil.make_archive("transcribed_docs","zip","documents")
+  return templates.TemplateResponse("download.html", {'request': request})
+
+@app.get('/download')
+async def download():
   return FileResponse("transcribed_docs.zip")
+
+@app.get('/logs')
+async def logs():
+  return FileResponse("documents/logs.txt")

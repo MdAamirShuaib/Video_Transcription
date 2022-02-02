@@ -26,31 +26,73 @@ body {
 
 .upload-box {
   font-size: 16px;
+  font-family: Montserrat, sans-serif;
   background: white;
   border-radius: 50px;
   box-shadow: 5px 5px 10px black;
-  width: 240px;
+  width: 265px;
   outline: none;
 }
 
 ::-webkit-file-upload-button{
   color: white;
   background: #09b794;
+  font-family: Montserrat, sans-serif;
   padding: 10px;
   border: none;
   border-radius: 50px;
-  box-shadow: 1px 0 1px 1px #6b4559;
+  box-shadow: 1px 1px 10px black;
   outline: none;
 }
 
 
 .btn {
+  position: relative;
+  cursor: pointer;
   border: 2px solid white;
   color: white;
   background-color: #09b794;
-  padding: 6px 16px;
+  padding: 8px 16px;
   border-radius: 150px;
   box-shadow: 5px 5px 10px black;
+}
+
+.btn:active {
+  background: #007163;
+
+}
+
+.btn_text {
   font-size: 16px;
-  font-weight: bold;
+  transition: all 0.1s;
+  font-family: Montserrat, sans-serif;
+}
+
+.btn_loading .btn_text {
+  visibility: hidden;
+}
+
+.btn_loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  border: 5px solid transparent;
+  border-top-color: white;
+  border-radius: 50%;
+  animation: btn_loading_spinner 1s ease infinite;
+}
+
+@keyframes btn_loading_spinner {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
 }
